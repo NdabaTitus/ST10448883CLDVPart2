@@ -34,7 +34,7 @@ namespace EventEaseSystem.Controllers
         public async Task<IActionResult> Create()
         {
             ViewBag.EventID = new SelectList( await _context.Events.ToListAsync(),"EventID","EventName");
-            ViewBag.VenueID = new SelectList(await _context.Venue.ToListAsync(), "VenueID", "VenueName"); ;
+            ViewBag.VenueID = new SelectList(await _context.Venues.ToListAsync(), "VenueID", "VenueName"); ;
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace EventEaseSystem.Controllers
             {
                 ModelState.AddModelError("", "Selected event not found.");
                 ViewData["Events"] = _context.Events.ToList();
-                ViewData["Venues"] = _context.Venue.ToList();
+                ViewData["Venues"] = _context.Venues.ToList();
                 return View(booking);
             }
 
@@ -62,7 +62,7 @@ namespace EventEaseSystem.Controllers
             {
                 ModelState.AddModelError("", "This venue is already booked for that date.");
                 ViewData["Events"] = _context.Events.ToList();
-                ViewData["Venues"] = _context.Venue.ToList();
+                ViewData["Venues"] = _context.Venues.ToList();
                 return View(booking);
             }
 
@@ -80,13 +80,13 @@ namespace EventEaseSystem.Controllers
                     // If database constraint fails (e.g., unique key violation), show friendly message
                     ModelState.AddModelError("", "This venue is already booked for that date.");
                     ViewData["Events"] = _context.Events.ToList();
-                    ViewData["Venues"] = _context.Venue.ToList();
+                    ViewData["Venues"] = _context.Venues.ToList();
                     return View(booking);
                 }
             }
 
             ViewData["Events"] = _context.Events.ToList();
-            ViewData["Venues"] = _context.Venue.ToList();
+            ViewData["Venues"] = _context.Venues.ToList();
             return View(booking);
         }
     }

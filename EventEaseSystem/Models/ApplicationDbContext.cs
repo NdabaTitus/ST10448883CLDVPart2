@@ -9,8 +9,10 @@ namespace EventEaseSystem.Models
         {
 
         }
-        public DbSet<Venue> Venue { get; set; }
+        public DbSet<Venues> Venues { get; set; }
         public DbSet<Events> Events { get; set; }
         public DbSet<Bookings> Bookings { get; set; }
+
+        public DbSet<EventType> EventType { get; set; }
     }
 }

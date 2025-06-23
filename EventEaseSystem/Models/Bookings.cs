@@ -12,7 +12,7 @@ namespace EventEaseSystem.Models
         public int VenueID { get; set; }
 
         // Navigation property (optional)
-        public Venue? Venue { get; set; }
+        public Venues? Venue { get; set; }
 
         [ForeignKey("EventID")]
         public int EventID { get; set; }

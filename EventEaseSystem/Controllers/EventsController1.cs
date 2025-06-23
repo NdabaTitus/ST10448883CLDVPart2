@@ -13,16 +13,31 @@ namespace EventEaseSystem.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchType,int? venueId,DateTime? startDate, DateTime? endDate)
         {
-           var eventss = await _context.Events.ToListAsync();
-            return View(eventss);
+            var eventsss = _context.Events.Include(e => e.Venue)
+                .Include(e => e.EventType)
+                .AsQueryable();
+
+            if(!string.IsNullOrEmpty(searchType))
+                eventsss=eventsss.Where(e=>e.EventType.Name == searchType);
+
+            if(venueId.HasValue)
+                eventsss=eventsss.Where(e =>e.VenueID ==venueId.Value); 
+
+            if(startDate.HasValue&&endDate.HasValue)
+                eventsss=eventsss.Where(e=> e.EventDate >= startDate.Value && e.EventDate<=endDate);
+
+            ViewData["EventType"]=_context.EventType.ToList();
+            ViewData["Venue"]=_context.Venues.ToList();
+            return View(await eventsss.ToListAsync());
         }
 
         // reate 1
         public async Task<IActionResult> Create()
         {
-            ViewBag.VenueID = new SelectList(await _context.Venue.ToListAsync(), "VenueID", "VenueName");
+            ViewData["EventType"]= _context.EventType.ToList();
+            ViewBag.VenueID = new SelectList(await _context.Venues.ToListAsync(), "VenueID", "VenueName");
             return View();
         }
         [HttpPost]
@@ -38,7 +53,8 @@ namespace EventEaseSystem.Controllers
                 return RedirectToAction(nameof(Index));
 ;            }
 
-            ViewData["Venue"] = _context.Venue.ToList();
+            ViewData["Venue"] = _context.Venues.ToList();
+            ViewData["EventType"] = _context.EventType.ToList();
             return View(@event);
         }
 
@@ -49,7 +65,8 @@ namespace EventEaseSystem.Controllers
             var @event = await _context.Events.FindAsync(id);
             if (@event == null) return NotFound();
 
-            ViewData["Venue"] = _context.Venue.ToList();
+            ViewData["EventType"] = _context.EventType.ToList();
+            ViewData["Venue"] = _context.Venues.ToList();
             return View(@event);
         }
 
@@ -67,7 +84,8 @@ namespace EventEaseSystem.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["Venue"] = _context.Venue.ToList();
+            ViewData["EventType"] = _context.EventType.ToList();
+            ViewData["Venue"] = _context.Venues.ToList();
             return View(@event);
         }
 

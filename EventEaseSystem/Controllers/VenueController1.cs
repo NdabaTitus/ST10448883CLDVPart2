@@ -17,7 +17,7 @@ namespace EventEaseSystem.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var venues = await _context.Venue.ToListAsync();
+            var venues = await _context.Venues.ToListAsync();
             return View(venues);
         }
 
@@ -28,7 +28,7 @@ namespace EventEaseSystem.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Venue venue)
+        public async Task<IActionResult> Create(Venues venue)
         {
             if (ModelState.IsValid)
             {
@@ -41,10 +41,12 @@ namespace EventEaseSystem.Controllers
                 {
 
                     // Upload image to Blob Storage (Azure)
+                    /**
                     var blobUrl = await UploadImageToBlobAsync(venue.ImageFile); //Main part of Step 5 B (upload image to Azure Blob Storage)
-
+                    
                     // Step 6: Save the Blob URL into ImageUrl property (the database)
                     venue.ImageUrl = blobUrl;
+                    **/
                 }
 
                 _context.Add(venue);
@@ -59,7 +61,7 @@ namespace EventEaseSystem.Controllers
         {
             if (id == null) return NotFound();
 
-            var venue = await _context.Venue.FindAsync(id);
+            var venue = await _context.Venues.FindAsync(id);
             if (venue == null) return NotFound();
 
             return View(venue);
@@ -67,7 +69,7 @@ namespace EventEaseSystem.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Venue venue)
+        public async Task<IActionResult> Edit(int id, Venues venue)
         {
             if (id != venue.VenueID) return NotFound();
 
@@ -77,12 +79,14 @@ namespace EventEaseSystem.Controllers
                 {
                     if (venue.ImageFile != null)
                     {
+                        /**
                         // Upload new image if provided
                         var blobUrl = await UploadImageToBlobAsync(venue.ImageFile);
 
                         // STep 6
                         // Update Venue.ImageUrl with new Blob URL
                         venue.ImageUrl = blobUrl;
+                        **/
                     }
                     else
                     {
@@ -95,10 +99,12 @@ namespace EventEaseSystem.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
+                   /**
                     if (!VenueExists(venue.VenueID))
                         return NotFound();
                     else
                         throw;
+                   **/
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -110,6 +116,7 @@ namespace EventEaseSystem.Controllers
         // It completes the entire uploading process inside Step 5 â€” from connecting to Azure to returning the Blob URL after upload.
         // This will upload the Image to Blob Storage Account
         // Uploads an image to Azure Blob Storage and returns the Blob URL
+        /***
         private async Task<string> UploadImageToBlobAsync(IFormFile imageFile)
         {
             var connectionString = "DefaultEndpointsProtocol=https;AccountName=st10448883;AccountKey=NVsWtcrXzjkS5dMlsfUWLj8EiFToubKTyDzLhk1jjNfKzcz2Jo/JkezgrE2iqeNeoGv4YOk9/o74+AStMrodmg==;EndpointSuffix=core.windows.net";
@@ -138,13 +145,14 @@ namespace EventEaseSystem.Controllers
         {
             return _context.Venue.Any(e => e.VenueID == id);
         }
+        ***/
 
         //STEP 1: Confirm Deletion(GET)
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null) return NotFound();
 
-            var venue = await _context.Venue.FirstOrDefaultAsync(v => v.VenueID == id);
+            var venue = await _context.Venues.FirstOrDefaultAsync(v => v.VenueID == id);
             if (venue == null) return NotFound();
 
             return View(venue);
@@ -156,7 +164,7 @@ namespace EventEaseSystem.Controllers
 
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var venue = await _context.Venue.FindAsync(id);
+            var venue = await _context.Venues.FindAsync(id);
             if (venue == null) return NotFound();
 
             var hasBookings = await _context.Bookings.AnyAsync(b => b.VenueID == id);
@@ -167,7 +175,7 @@ namespace EventEaseSystem.Controllers
 
             }
 
-            _context.Venue.Remove(venue);
+            _context.Venues.Remove(venue);
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Venue deleted successfully ";
             return RedirectToAction(nameof(Index));

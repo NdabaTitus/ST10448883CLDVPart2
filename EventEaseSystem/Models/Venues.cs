@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EventEaseSystem.Models
 {
-    public class Venue
+    public class Venues
     {
         [Key]
         [Required]

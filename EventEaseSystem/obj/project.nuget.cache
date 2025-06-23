@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "u3xw+TWGkp8=",
+  "dgSpecHash": "Lm3AJprvDio=",
   "success": true,
-  "projectFilePath": "C:\\Users\\lab_services_student\\Desktop\\Cloud Development\\EventEaseSystem\\EventEaseSystem.csproj",
+  "projectFilePath": "C:\\Users\\lab_services_student\\Desktop\\Cloudcldv6211\\ST10448883CLDVPart2\\EventEaseSystem\\EventEaseSystem.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lab_services_student\\.nuget\\packages\\azure.core\\1.44.1\\azure.core.1.44.1.nupkg.sha512",
     "C:\\Users\\lab_services_student\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

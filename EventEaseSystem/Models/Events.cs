@@ -11,8 +11,11 @@ namespace EventEaseSystem.Models
         public DateTime EventDate { get; set; }
         public string Details { get; set; } // description
         public int? VenueID { get; set; } // foreign key
-        public Venue? Venue { get; set; }
+        public Venues? Venue { get; set; }
      
+        public int EventTypeId { get; set; }
+        public EventType? EventType { get; set; }               
+
 
 
     }
